@@ -1,4 +1,11 @@
-import Image,ImageDraw,ImageFont
+# -*- coding:utf-8 -*-
+#!/usr/bin/python
+# Python:          3.4.3
+# Platform:        Windows
+# Author:          Mr.Yuan	fusu1435@163.com
+# Program:         验证码图片生成
+# History:         2015.6.4 v3.0.1
+from PIL import Image,ImageDraw,ImageFont
 import random 
 import math
 
