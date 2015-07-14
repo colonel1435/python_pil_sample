@@ -33,11 +33,13 @@ def randLineEndPos():
     return (random.randint(width*0.75,width),random.randint(0,60))
 
 def randChRotate(img,ch_list):
-	  for x,y,ch in ch_list:
-	  	rect_val = (x,y,x+font_size,y+font_size)
-	  	rect = img.crop(rect_val)
-	  	rect = rect.rotate(random.randint(0,45))
-	  	img.paste(rect,rect_val)
+    for x,y,ch in ch_list:
+    		#im = Image.Draw('RGBA',(x+font_size,y+font_size),'white')
+        rect_val = (x,y,x+font_size,y+font_size)
+        rect = img.crop(rect_val)
+        rect = rect.convert('RGBA')
+        rect = rect.rotate(random.randint(0,45),expand=0)
+        img.paste(rect,rect_val)
 #                rect.show()
 
 def randChPos(ch_list):
@@ -61,19 +63,19 @@ def randChPos(ch_list):
 def genImage():
     ch_list = []
     font = ImageFont.truetype('FreeSans.ttf',font_size)
-    img = Image.new('RGB',(width,height),(255,255,255))
+    img = Image.new('RGBA',(width,height),(255,255,255))
     draw = ImageDraw.Draw(img)
     randChPos(ch_list)
     for x,y,ch in ch_list:
         draw.text((x,y),ch,font=font,fill=randChColor())
-#        draw.text((60*i+10,20),randChar(),font=font,fill=randChColor())
 
+    randChRotate(img,ch_list)
     for j in range(0,4):
         draw.line((randLineStartPos(),randLineEndPos()),fill=randLineColor(),width=2)
 #    randChRotate(img,ch_list)
     
-    img.show()
-    img.save('test.jpg','jpeg')
+#    img.show()
+    img.save('test.png')
 
 if __name__ == '__main__':
     genImage()
