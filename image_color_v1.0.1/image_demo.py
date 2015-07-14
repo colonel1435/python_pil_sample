@@ -8,30 +8,37 @@
 from PIL import Image,ImageDraw,ImageFont,ImageFilter
 import random
 
-ch = ('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z', 
-      'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
-      1,2,3,4,5,6,7,8,9,0)
-def rndChar():
-    return chr(random.randint(65,90))
-#     return ch[random.randint(0,62)]
-def rndBgColor():
+ch = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+width = 60*4
+height = 60
+def randChar():
+    return ch[random.randint(0,61)]
+def randBgColor():
     return (random.randint(32,255),random.randint(32,255),random.randint(32,255))
-def rndChColor():
+def randChColor():
     return (random.randint(64,127),random.randint(64,127),random.randint(64,255))
-def genImage():
-	width = 60*4
-	height = 60
-	image = Image.new('RGB',(width,height),(255,255,255))
-	font = ImageFont.truetype('FreeSans.ttf',36)
-	draw = ImageDraw.Draw(image)
-	for x in range(width):
-		for y in range(height):
-			draw.point((x,y),fill = rndBgColor())
-	for t in range(4):
-		draw.text((60*t+10,10),rndChar(),font=font,fill=rndChColor())
-	image = image.filter(ImageFilter.BLUR)
-	image.show()
-	image.save('code.jpg','jpeg')
+def randLineColor():
+#    return ((random.randint(0,255)),(random.randint(0,255)),(random.randint(0,255)))
+    return (0,0,0)
+def randLineStartPos():
+    return (random.randint(0,width*0.25),random.randint(0,60))
+
+def randLineEndPos():
+    return (random.randint(width*0.75,width),random.randint(0,60))
+def genImage():    
+    image = Image.new('RGB',(width,height),(255,255,255))
+    font = ImageFont.truetype('FreeSans.ttf',36)
+    draw = ImageDraw.Draw(image)
+    for x in range(width):
+        for y in range(0,height):
+            draw.point((x,y),fill = randBgColor())
+    for t in range(0,4):
+        draw.text((60*t+10,10),randChar(),font=font,fill=randChColor())
+    
+    for j in range(0,4):
+        draw.line((randLineStartPos(),randLineEndPos()),fill=randLineColor(),width=1)
+	#image = image.filter(ImageFilter.BLUR)
+    image.save('code.jpg','jpeg')
 
 if __name__ == '__main__':
 	genImage()
