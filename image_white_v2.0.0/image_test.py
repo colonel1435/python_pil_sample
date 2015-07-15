@@ -32,24 +32,31 @@ def randLineStartPos():
 def randLineEndPos():
     return (random.randint(width*0.75,width),random.randint(0,60))
 
-def randChRotate(img):
-    img.rotate(random.randint(0,90))
+def randChRotate(img,ch_list):
+	  for x,y,ch in ch_list:
+	  	rect_val = (x,y,x+font_size,y+font_size)
+	  	rect = img.crop(rect_val)
+	  	rect = rect.rotate(random.randint(0,45))
+	  	img.paste(rect,rect_val)
+#                rect.show()
 
 def randChPos(ch_list):
-    margin = font_size
+    xMargin = 30 
+    yMargin = font_size+5
     x_space = 10
     x_list = []
     for i in range(0,4):
-        x = random.randint(margin,width - margin)
-        y = random.randint(margin,height - margin)
+
+        x = random.randint(xMargin,width-xMargin)
+        y = random.randint(yMargin,height-yMargin)
         for val in x_list:
             if math.abs(x,val) < x_space:
                if x - val > 0:
                    x = x + x_space/2
                else:
                    x = x - x_space/2
-            x_list.append(x) 
         ch_list.append((x,y,randChar()))
+        print(ch_list[i])
 
 def genImage():
     ch_list = []
